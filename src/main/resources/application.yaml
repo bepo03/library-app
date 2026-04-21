@@ -1,0 +1,137 @@
+# ========================================
+# 공통 설정 (모든 프로필에 적용)
+# ========================================
+spring:
+  application:
+    name: library-app
+  config:
+    import: optional:file:./.env[.properties]
+  profiles:
+    active: dev
+
+  # SQL 초기화 설정
+  sql:
+    init:
+      mode: always
+      platform: mysql
+      encoding: UTF-8
+
+# 서버 설정
+server:
+  servlet:
+    context-path: /
+  encoding:
+    charset: UTF-8
+    enabled: true
+    force: true
+
+---
+# ========================================
+# default 프로필 (프로필 미지정 시 기본 사용)
+# ========================================
+spring:
+  config:
+    activate:
+      on-profile: default
+
+  # MySQL 데이터베이스 설정
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30_000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600_000
+      pool-name: LibraryAPIHikariCP
+
+# 기본 로깅 설정
+logging:
+  level:
+    root: INFO
+    com.bepo.libraryapp: INFO
+    org.springframework.web: INFO
+
+server:
+  port: 18080
+
+---
+# ========================================
+# dev 프로필 (개발 환경 - 상세 로깅)
+# ========================================
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  sql:
+    init:
+      mode: always
+
+  # MySQL 데이터베이스 설정 (개발용)
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30_000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 600_000
+      pool-name: LibraryAPIHikariCP-DEV
+      # 개발 환경용 추가 설정
+      register-mbeans: true
+      connection-test-query: SELECT 1
+      leak-detection-threshold: 60_000
+      auto-commit: true
+      # MySQL 드라이버 상세 로깅
+      data-source-properties:
+        logger: com.mysql.cj.log.Slf4JLogger
+        profileSQL: true
+
+  # JPA 설정 (개발용)
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: update
+
+# 개발 환경 상세 로깅
+logging:
+  level:
+    root: INFO
+    com.bepo.libraryapp: DEBUG
+
+    # Spring 프레임워크 로깅
+    org.springframework.jdbc: DEBUG
+    org.springframework.jdbc.core: DEBUG
+    org.springframework.jdbc.datasource: TRACE
+    org.springframework.boot.autoconfigure.jdbc: DEBUG
+
+    # HikariCP 상세 로깅
+    com.zaxxer.hikari: DEBUG
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    com.zaxxer.hikari.HikariDataSource: DEBUG
+    com.zaxxer.hikari.pool: DEBUG
+
+    # MySQL 드라이버 로깅
+    com.mysql.cj: DEBUG
+    com.mysql.cj.jdbc: TRACE
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+server:
+  port: 18081
+
+# 개발 도구 활성화
+debug: false
+trace: false
+
+---
