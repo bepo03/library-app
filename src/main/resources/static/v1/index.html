@@ -9,6 +9,12 @@
     <link rel="apple-touch-icon" href="/v1/logo192.png"/>
     <link rel="manifest" href="/v1/manifest.json"/>
     <title>도서관리 애플리케이션</title>
+    <script>
+        window.addEventListener("unhandledrejection", function (event) {
+            var message = event.reason?.response?.data?.error?.message ?? "요청 처리에 실패했습니다.";
+            alert(message);
+        });
+    </script>
     <script defer="defer" src="/v1/static/js/main.d4f24480.js"></script>
     <link href="/v1/static/css/main.101cd0fe.css" rel="stylesheet">
 </head>

@@ -1,6 +1,8 @@
 package com.bepo.libraryapp.domain.user.controller;
 
 import com.bepo.libraryapp.domain.user.dto.request.UserCreateRequest;
+import com.bepo.libraryapp.domain.user.dto.request.UserUpdateRequest;
+import com.bepo.libraryapp.domain.user.dto.response.UserDeleteResponse;
 import com.bepo.libraryapp.domain.user.dto.response.UserResponse;
 import com.bepo.libraryapp.domain.user.service.UserService;
 import com.bepo.libraryapp.global.common.ApiResponse;
@@ -36,5 +38,23 @@ public class UserController {
 
         return ResponseEntity
                 .ok(ApiResponse.success(responses));
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(
+            @RequestBody
+            UserUpdateRequest request
+    ) {
+        UserResponse response = userService.updateUser(request);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse<UserDeleteResponse>> deleteUser(
+            @RequestParam
+            String name
+    ) {
+        UserDeleteResponse response = userService.deleteUser(name);
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

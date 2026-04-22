@@ -1,6 +1,5 @@
 package com.bepo.libraryapp.domain.user.dto.request;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserCreateRequest {
-
+public class UserUpdateRequest {
+    private Long id;
     @NotBlank(message = "이름은 필수 입력 항목입니다.")
     private String name;
-
-    @Min(value = 1, message = "나이는 1살 이상이어야 합니다.")
-    private Integer age;
 }

@@ -2,14 +2,12 @@ package com.bepo.libraryapp.domain.user.entity;
 
 import com.bepo.libraryapp.domain.user.dto.response.UserResponse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Table(name =  "users")
+@Table(name = "users")
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

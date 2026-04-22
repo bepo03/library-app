@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR"),
-    DUPLICATE_NAME(HttpStatus.CONFLICT, "DUPLICATE_NAME");
+    DUPLICATE_NAME(HttpStatus.CONFLICT, "DUPLICATE_NAME"),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_NOT_FOUND");
 
     private final HttpStatus httpStatus;
     private final String code;
