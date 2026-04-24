@@ -20,6 +20,8 @@ public class UserController {
 
     private final UserService userService;
 
+    // ========== CREATE ==========
+
     @PostMapping
     public ResponseEntity<ApiResponse<UserResponse>> saveUser(
             @RequestBody
@@ -32,6 +34,8 @@ public class UserController {
                 .body(ApiResponse.success(response));
     }
 
+    // ========== READ ==========
+
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers() {
         List<UserResponse> responses = userService.getUser();
@@ -39,6 +43,8 @@ public class UserController {
         return ResponseEntity
                 .ok(ApiResponse.success(responses));
     }
+
+    // ========== UPDATE ==========
 
     @PutMapping
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
@@ -48,6 +54,8 @@ public class UserController {
         UserResponse response = userService.updateUser(request);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+    // ========== DELETE ==========
 
     @DeleteMapping
     public ResponseEntity<ApiResponse<UserDeleteResponse>> deleteUser(

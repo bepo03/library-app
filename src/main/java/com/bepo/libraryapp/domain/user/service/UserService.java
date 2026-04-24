@@ -5,10 +5,10 @@ import com.bepo.libraryapp.domain.user.dto.request.UserUpdateRequest;
 import com.bepo.libraryapp.domain.user.dto.response.UserDeleteResponse;
 import com.bepo.libraryapp.domain.user.dto.response.UserResponse;
 import com.bepo.libraryapp.domain.user.entity.User;
-import com.bepo.libraryapp.domain.user.exception.NameDuplicateException;
 import com.bepo.libraryapp.domain.user.exception.UserNotFoundException;
 import com.bepo.libraryapp.domain.user.mapper.UserMapper;
 import com.bepo.libraryapp.domain.user.repository.UserRepository;
+import com.bepo.libraryapp.global.exception.NameDuplicateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    // ========== CREATE ==========
+
     public UserResponse saveUser(UserCreateRequest request) {
         log.info("새로운 회원 저장: {}", request.getName());
         User user = userMapper.toEntity(request);
@@ -36,14 +38,18 @@ public class UserService {
         return userMapper.toResponse(savedUser);
     }
 
+    // ========== READ ==========
+
     public List<UserResponse> getUser() {
         List<User> users = userRepository.findAll();
         log.info("회원 조회: {}개", users.size());
 
         return users.stream()
-                .map(user -> user.toResponse(user))
+                .map(userMapper::toResponse)
                 .toList();
     }
+
+    // ========== UPDATE ==========
 
     public UserResponse updateUser(UserUpdateRequest request) {
         User user = userRepository.findById(request.getId())
@@ -58,6 +64,8 @@ public class UserService {
         return userMapper.toResponse(updatedUser);
     }
 
+    // ========== DELETE ==========
+
     public UserDeleteResponse deleteUser(String name) {
         User user = userRepository.findByName(name)
                 .orElseThrow(() -> new UserNotFoundException(name));
@@ -67,6 +75,7 @@ public class UserService {
         return UserDeleteResponse.of(name, true);
     }
 
+    // ========== PRIVATE METHODS ==========
 
     private void validateDuplicateUser(User user) {
         userRepository.findByName(user.getName())

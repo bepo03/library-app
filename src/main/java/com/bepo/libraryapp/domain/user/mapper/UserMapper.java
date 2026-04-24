@@ -10,9 +10,7 @@ import org.mapstruct.*;
 public interface UserMapper {
 
     @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "name", ignore = true),
-            @Mapping(target = "age", ignore = true)
+            @Mapping(target = "id", ignore = true)
     })
     User toEntity(UserCreateRequest request);
 
@@ -20,7 +18,8 @@ public interface UserMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mappings({
-            @Mapping(target = "id", ignore = true)
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "age", ignore = true)
     })
     void updateEntity(UserUpdateRequest request, @MappingTarget User user);
 }

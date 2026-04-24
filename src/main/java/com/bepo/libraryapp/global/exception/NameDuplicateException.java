@@ -1,7 +1,4 @@
-package com.bepo.libraryapp.domain.user.exception;
-
-import com.bepo.libraryapp.global.exception.BusinessException;
-import com.bepo.libraryapp.global.exception.ErrorCode;
+package com.bepo.libraryapp.global.exception;
 
 public class NameDuplicateException extends BusinessException {
     public NameDuplicateException(String name) {

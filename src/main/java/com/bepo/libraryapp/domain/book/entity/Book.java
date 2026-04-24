@@ -1,16 +1,16 @@
-package com.bepo.libraryapp.domain.user.entity;
+package com.bepo.libraryapp.domain.book.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "users")
+@Table(name = "books")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,4 @@ public class User {
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    private Integer age;
 }
