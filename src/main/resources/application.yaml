@@ -7,7 +7,7 @@ spring:
   config:
     import: optional:file:./.env[.properties]
   profiles:
-    active: dev
+    active: test
 
   # SQL 초기화 설정
   sql:
@@ -135,3 +135,92 @@ debug: false
 trace: false
 
 ---
+# ========================================
+# prod 프로필 (운영 환경 - 최소 로깅)
+# ========================================
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  sql:
+    init:
+      mode: never
+
+  # MySQL 데이터베이스 설정 (운영용)
+  datasource:
+    url: jdbc:mysql://${DB_PROD_HOST}:${DB_PROD_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_PROD_USERNAME}
+    password: ${DB_PROD_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 20_000
+      maximum-pool-size: 20
+      minimum-idle: 10
+      idle-timeout: 300_000
+      pool-name: LibraryAPIHikariCP-PROD
+      max-lifetime: 1_800_000
+
+# 운영 환경 로깅 (최소화)
+logging:
+  level:
+    root: WARN
+    com.bepo.libraryapp: INFO
+    org.springframework: WARN
+    com.zaxxer.hikari: WARN
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger - %msg%n"
+  file:
+    name: logs/libraryapp.log
+    max-size: 10MB
+    max-history: 30
+
+server:
+  port: ${APP_PORT_PROD}
+
+---
+# ========================================
+# test 프로필 (테스트 환경 - H2 인메모리 DB)
+# ========================================
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  # H2 인메모리 데이터베이스 설정
+  datasource:
+    url: jdbc:h2:mem:${DB_NAME};MODE=MySQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    hikari:
+      connection-timeout: 10_000
+      maximum-pool-size: 5
+      minimum-idle: 2
+      pool-name: LibraryAPIHikariCP-TEST
+
+  # H2 콘솔 활성화
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # JPA 설정 (테스트용)
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+# 테스트 환경 로깅
+logging:
+  level:
+    root: INFO
+    com.bepo.libraryapp: DEBUG
+    org.springframework.test: DEBUG
+    org.springframework.jdbc: DEBUG
+    com.zaxxer.hikari: INFO
+
+server:
+  port: ${APP_PORT_TEST}
