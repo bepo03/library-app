@@ -6,10 +6,18 @@ import com.bepo.libraryapp.domain.user.dto.response.UserDeleteResponse;
 import com.bepo.libraryapp.domain.user.dto.response.UserResponse;
 import com.bepo.libraryapp.domain.user.service.UserService;
 import com.bepo.libraryapp.global.common.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -24,7 +32,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<UserResponse>> saveUser(
-            @RequestBody
+            @RequestBody @Valid
             UserCreateRequest request
     ) {
         UserResponse response = userService.saveUser(request);
@@ -38,7 +46,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers() {
-        List<UserResponse> responses = userService.getUser();
+        List<UserResponse> responses = userService.getUsers();
 
         return ResponseEntity
                 .ok(ApiResponse.success(responses));
@@ -48,7 +56,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
-            @RequestBody
+            @RequestBody @Valid
             UserUpdateRequest request
     ) {
         UserResponse response = userService.updateUser(request);

@@ -40,7 +40,7 @@ public class UserService {
 
     // ========== READ ==========
 
-    public List<UserResponse> getUser() {
+    public List<UserResponse> getUsers() {
         List<User> users = userRepository.findAll();
         log.info("회원 조회: {}개", users.size());
 
@@ -59,9 +59,7 @@ public class UserService {
 
         userMapper.updateEntity(request, user);
 
-        User updatedUser = userRepository.save(user);
-
-        return userMapper.toResponse(updatedUser);
+        return userMapper.toResponse(user);
     }
 
     // ========== DELETE ==========

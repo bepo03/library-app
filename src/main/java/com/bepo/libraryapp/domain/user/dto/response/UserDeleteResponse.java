@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonPropertyOrder({"message", "deletedId"})
+@JsonPropertyOrder({"message", "deletedName"})
 public class UserDeleteResponse {
     private String message;
     private String deletedName;

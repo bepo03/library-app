@@ -1,32 +1,48 @@
 package com.bepo.libraryapp.domain.user.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Table(name = "user_loan_history")
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class UserLoanHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private User user;
 
     @Column(nullable = false)
     private String bookName;
 
-    @Builder.Default
     private boolean isReturn = false;
 
-    public UserLoanHistory(Long userId, String bookName) {
-        this.userId = userId;
-        this.bookName = bookName;
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", insertable = false, updatable = false)
+    private LocalDateTime updatedAt;
+
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
+    public static UserLoanHistory of(User user, String bookName) {
+        UserLoanHistory userLoanHistory = new UserLoanHistory();
+        userLoanHistory.user = user;
+        userLoanHistory.bookName = bookName;
+        return userLoanHistory;
+    }
+
+    public void doReturn() {
+        this.isReturn = true;
     }
 }

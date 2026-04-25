@@ -55,4 +55,6 @@ build/test-results/
 build/tmp/
 
 ### Local Ignore ###
-src/main/java/com/bepo/libraryapp/domain/TEST/
+/_archive/
+/_backup/
+/_reference/
