@@ -7,7 +7,7 @@ spring:
   config:
     import: optional:file:./.env[.properties]
   profiles:
-    active: test
+    active: dev
 
   # SQL 초기화 설정
   sql:

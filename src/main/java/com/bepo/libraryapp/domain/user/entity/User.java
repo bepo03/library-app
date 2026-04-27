@@ -31,4 +31,15 @@ public class User {
     @Version
     @Column(nullable = false)
     private Long version;
+
+    public static User of(String name, Integer age) {
+        User user = new User();
+        user.name = name;
+        user.age = age;
+        return user;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 }

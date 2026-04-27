@@ -28,4 +28,10 @@ public class Book {
     @Version
     @Column(nullable = false)
     private Long version;
+
+    public static Book of(String name) {
+        Book book = new Book();
+        book.name = name;
+        return book;
+    }
 }
