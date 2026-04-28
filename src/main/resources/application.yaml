@@ -36,7 +36,7 @@ spring:
 
   # MySQL 데이터베이스 설정
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&rewriteBatchedStatements=true
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -72,7 +72,7 @@ spring:
 
   # MySQL 데이터베이스 설정 (개발용)
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&rewriteBatchedStatements=true
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -85,20 +85,18 @@ spring:
       # 개발 환경용 추가 설정
       register-mbeans: true
       connection-test-query: SELECT 1
-      leak-detection-threshold: 60_000
+      leak-detection-threshold: 0
       auto-commit: true
-      # MySQL 드라이버 상세 로깅
       data-source-properties:
-        logger: com.mysql.cj.log.Slf4JLogger
-        profileSQL: true
+        profileSQL: false
 
   # JPA 설정 (개발용)
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
-        use_sql_comments: true
+        use_sql_comments: false
     hibernate:
       ddl-auto: update
 
@@ -106,23 +104,23 @@ spring:
 logging:
   level:
     root: INFO
-    com.bepo.libraryapp: DEBUG
+    com.bepo.libraryapp: INFO
 
     # Spring 프레임워크 로깅
-    org.springframework.jdbc: DEBUG
-    org.springframework.jdbc.core: DEBUG
-    org.springframework.jdbc.datasource: TRACE
-    org.springframework.boot.autoconfigure.jdbc: DEBUG
+    org.springframework.jdbc: WARN
+    org.springframework.jdbc.core: WARN
+    org.springframework.jdbc.datasource: WARN
+    org.springframework.boot.autoconfigure.jdbc: WARN
 
     # HikariCP 상세 로깅
-    com.zaxxer.hikari: DEBUG
-    com.zaxxer.hikari.HikariConfig: DEBUG
-    com.zaxxer.hikari.HikariDataSource: DEBUG
-    com.zaxxer.hikari.pool: DEBUG
+    com.zaxxer.hikari: WARN
+    com.zaxxer.hikari.HikariConfig: WARN
+    com.zaxxer.hikari.HikariDataSource: WARN
+    com.zaxxer.hikari.pool: WARN
 
     # MySQL 드라이버 로깅
-    com.mysql.cj: DEBUG
-    com.mysql.cj.jdbc: TRACE
+    com.mysql.cj: WARN
+    com.mysql.cj.jdbc: WARN
 
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

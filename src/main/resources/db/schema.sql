@@ -5,6 +5,7 @@ CREATE DATABASE IF NOT EXISTS library_db CHARACTER SET utf8mb4 COLLATE utf8mb4_u
 USE library_db;
 
 -- 테이블 삭제
+DROP TABLE IF EXISTS fruits;
 DROP TABLE IF EXISTS user_loan_history;
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS users;
@@ -48,6 +49,16 @@ CREATE TABLE IF NOT EXISTS user_loan_history
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci COMMENT '사용자 대출 내역 테이블';
+
+-- fruits 테이블 생성
+CREATE TABLE IF NOT EXISTS fruits
+(
+    id    BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL COMMENT '과일 고유 ID',
+    name  VARCHAR(255) COMMENT '과일 이름',
+    price INT COMMENT '과일 가격'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci COMMENT '과일 테이블';
 
 -- 인덱스 생성
 CREATE INDEX idx_user_loan_history_user_id ON user_loan_history (user_id);
