@@ -1,6 +1,19 @@
-version: '3.8'
-
 services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    image: library-jenkins:jdk21-jdk17
+    container_name: ${JENKINS_CONTAINER_NAME}
+    ports:
+      - "${JENKINS_HTTP_PORT}:8080"
+      - "${JENKINS_AGENT_PORT}:50000"
+    volumes:
+      - ${HOST_JENKINS_HOME}:/var/jenkins_home
+      - ${DOCKER_SOCK}:/var/run/docker.sock
+    networks:
+      - library-network
+
   mysql:
     image: mysql:8.0
     container_name: library-mysql
